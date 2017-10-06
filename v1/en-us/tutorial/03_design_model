@@ -1,6 +1,6 @@
 ## Design Model
 
-After the code structure design, we can start to design our model, let's do a recap for what we are going to make.
+After the code structure design, we can start to design our model, let's do a recap of what we are going to make.
 
 ![user-dashboard](https://cloud.githubusercontent.com/assets/1179603/17655205/dfde2f4e-62dd-11e6-9c91-657ee4c17b91.png)
 
@@ -18,7 +18,7 @@ So the principle of model separation is to separate the data model. Here we are 
 When we created the users model, we need to see how to design it. Normally, there are 2 methods:
 
 1. Data based method
-1. Behavior based method
+1. Behavior-based method
 
 #### Data based
 Based on the data, the principle of design to separate the data itself and also the related actions. For example,
@@ -32,28 +32,28 @@ export default {
     list: [],
     total: null,
   },
-	effects: {
-		*query(){},
-		*create(){},
-		// delete is reserved in JS
-		*'delete'(){},
-		*update(){},
-	},
-	reducers: {
-		querySuccess(){},
-		createSuccess(){},
-		deleteSuccess(){},
-		updateSuccess(){},
-	}
+    effects: {
+        *query(){},
+        *create(){},
+        // delete is reserved in JS
+        *'delete'(){},
+        *update(){},
+    },
+    reducers: {
+        querySuccess(){},
+        createSuccess(){},
+        deleteSuccess(){},
+        updateSuccess(){},
+    }
 }
 
 ```
-If you wrote backend, you will find that this is very similar to our backend interface, it concerns only the data itself. For the state in the model, it is irrelevant to our model, we need to handle it inside the component.
+If you wrote a backend, you will find that this is very similar to our backend interface, it concerns only the data itself. For the state in the model, it is irrelevant to our model, we need to handle it inside the component.
 
-This design method made the model pure, it suits the most situation when we design a common data model, for example, the model of user login info. But if the interaction of data and action are very tight, it will not be very convenient when the data is not independent, because when the interaction of data and action are very tight, put the state into model will make our code well organized. this method is the behavior based design method.
+This design method made the model pure, it suits the most situation when we design a common data model, for example, the model of user login info. But if the interaction of data and action are very tight, it will not be very convenient when the data is not independent, because when the interaction of data and action are very tight, put the state into the model will make our code well organized. this method is the behavior based design method.
 
 #### Behavior based method
-Behavior based design takes every strong connected state of component into the separated model, in our case, the `users` model will be like this:
+Behavior based design takes every strongly connected state of a component into the separated model, in our case, the `users` model will be like this:
 
 ```javascript
 // models/users.js
@@ -63,28 +63,28 @@ export default {
 
   state: {
     list: [],
-	total: null,
+    total: null,
     loading: false, // control loading status
     current: null, // current page
     currentItem: {}, // current user page
     modalVisible: false, // control modal status
     modalType: 'create', // modal type (create or update)
   },
-	effects: {
-		*query(){},
-		*create(){},
-		*'delete'(){},
-		*update(){},
-	},
-	reducers: {
-		showLoading(){}, // reducer of loading status
-		showModal(){}, // reducer of modal status
-		hideModal(){},
-		querySuccess(){},
-		createSuccess(){},
-		deleteSuccess(){},
-		updateSuccess(){},
-	}
+    effects: {
+        *query(){},
+        *create(){},
+        *'delete'(){},
+        *update(){},
+    },
+    reducers: {
+        showLoading(){}, // reducer of loading status
+        showModal(){}, // reducer of modal status
+        hideModal(){},
+        querySuccess(){},
+        createSuccess(){},
+        deleteSuccess(){},
+        updateSuccess(){},
+    }
 }
 
 ```
@@ -94,8 +94,8 @@ name: function(){}
 ```
 In addition, the asterisk `*` before `*name(){}` means this is a __Generator Function.__
 
-Back to the code, we can see we put the business logic into the model, so every state of this component will be controlled in model, it is easy to track and operate.
+Back to the code, we can see we put the business logic into the model, so every state of this component will be controlled in the model, it is easy to track and operate.
 
-Based on the situation of current project, the connection of data and business logic are strong, we use behavior based method. we will complete this model after we finished the design of model.
+Based on the situation of current project, the connection of data and business logic are strong, we use behavior based method. we will complete this model after we finished the design of the model.
 
-Next [Component Design Methods](./04-组件设计方法.md)。
+Next [Component Design Methods](./04-Component_design_methods.md)。

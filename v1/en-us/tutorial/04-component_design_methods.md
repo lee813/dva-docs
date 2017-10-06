@@ -46,27 +46,30 @@ import React, { Component, PropTypes } from 'react';
 // the needed data of Container Component is passed via props.
 const MyComponent = (props)=>{}
 MyComponent.propTypes = {};
-
+857987965432313
 // No subscription to the data
 export default MyComponent;
 ```
 
-#### 对比
-对组件分类，主要有两个好处：
+#### Comparison
+Categorized the components brings 2 benefits：
 
-1. 让项目的数据处理更加集中；
-2. 让组件高内聚低耦合，更加聚焦；
+1. Centralize the data manipulation；
+2. Let the component to be low coupling and highly cohesive
 
-试想如果每个组件都去订阅数据 model，那么一方面组件本身跟 model 耦合太多，另一方面代码过于零散，到处都在操作数据，会带来后期维护的烦恼。
+For the instance, if every component subscript the data model, then the component is high coupled with model, also the code is too spread, it will bring problems for the maintenance.
 
-除了写法上订阅数据的区别以外，在设计思路上两个组件也有很大不同。
-`Presentational Component`是独立的纯粹的，这方面很好的例子，大家可以参考 [ant.design UI组件的React实现](http://ant.design/docs/react/introduce) ，每个组件跟业务数据并没有耦合关系，只是完成自己独立的任务，需要的数据通过 `props` 传递进来，需要操作的行为通过接口暴露出去。
-而 `Container Component` 更像是状态管理器，它表现为一个容器，订阅子组件需要的数据，组织子组件的交互逻辑和展示。
+Except for the subscription difference, the design of those two kinds of components are also different.
 
-更多的相关内容，可以看看Redux作者（facebook的程序员）Dan Abramov 的看法：
+`Presentational Component` is pure independent component, you can check  [ant.design React UI introduce](http://ant.design/docs/react/introduce)
+Every component has no coupling with the business logic, it will only accomplish its own task. Data need to be passed via `props`, also we need to expose our interfaces.
+
+`Container Component` is more like a state manager, it acts as a container, subscript component's data and also organize component's interaction logic and display.
+
+More info of Dan Abramov's thought:
 - https://github.com/reactjs/redux/issues/756#issuecomment-141683834
 - https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0#.231v4pdgr
 
-接下来我们会进入本例中组件的设计开发，从实践一步一步看看如何贯穿起来。
+Next we will introduce the development of component of our project.
 
-下一步，进入[组件设计实践](./05-组件设计实践.md)。
+Next [Component Design Practice](./05-组件设计实践.md)。

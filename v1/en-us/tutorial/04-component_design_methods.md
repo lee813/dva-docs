@@ -46,7 +46,6 @@ import React, { Component, PropTypes } from 'react';
 // the needed data of Container Component is passed via props.
 const MyComponent = (props)=>{}
 MyComponent.propTypes = {};
-857987965432313
 // No subscription to the data
 export default MyComponent;
 ```
@@ -72,4 +71,4 @@ More info of Dan Abramov's thought:
 
 Next we will introduce the development of component of our project.
 
-Next [Component Design Practice](./05-组件设计实践.md)。
+Next [Component Design Practice](./05-component_design_practice.md)。

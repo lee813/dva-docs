@@ -50,22 +50,22 @@ export default Users;
 You can add other routers, for more info, please have a look on [react-router](https://github.com/reactjs/react-router).
 
 ### Design of Users Container Component
-基础工作都准备好了，接下来就开始设计 Users Container Component。在本项目中 Users Container 的表现为 Route Components（这也是 dva 推荐的结构划分），可以理解页面维度的容器，所以我们在 `/routes/` 下加入 `Users.jsx`。
+The basic work are all done, next we need to start to design Users Container Component, In this project, Users Container is a Route Components (this is also recommended by dva), so we add `Users.jsx` under `/routes/`
 
-我们采用`自顶向下`的设计方法，修改 `./src/routes/Users.jsx` 如下：
+We adopt the `from top to bottom` design method, modify `./src/routes/Users.jsx` as this:
 
 ```jsx
 // ./src/routes/Users.jsx
 import React, { Component, PropTypes } from 'react';
 
-// Users 的 Presentational Component
-// 暂时都没实现
+// Presentational Component of Users
+// Not implemented yet
 import UserList from '../components/Users/UserList';
 import UserSearch from '../components/Users/UserSearch';
 import UserModal from '../components/Users/UserModal';
 
-// 引入对应的样式
-// 可以暂时新建一个空的
+// load the styles
+// we can create an empty one firstly
 import styles from './Users.less';
 
 function Users() {
@@ -76,11 +76,11 @@ function Users() {
 
   return (
     <div className={styles.normal}>
-      {/* 用户筛选搜索框 */}
+  {/* user search */}
       <UserSearch {...userSearchProps} />
-      {/* 用户信息展示列表 */}
+    {/* user info display */}
       <UserList {...userListProps} />
-      {/* 添加用户 & 修改用户弹出的浮层 */}
+    {/* add user & modify user modal */}
       <UserModal {...userModalProps} />
     </div>
   );
@@ -88,8 +88,7 @@ function Users() {
 
 export default Users;
 ```
-
-其中，`UserSearch`，`UserList`，`UserModal` 我们还未实现，不过我们可以暂时让他们输出一段话，表示占位，基本的结构表现的很清楚，`Users Router Container` 由这三个 `Presentational Components` 组成。（其中{...x}的用法可以参看[es6](http://es6.ruanyifeng.com/#docs/object#对象的扩展运算符)）
+We haven't implemented `UserSearch`，`UserList`，`UserModal` yet, but we can create them temporarily, so we can show the basic structure, `Users Router Container` is consist of those 3 `Presentational Components`
 
 ```jsx
 // ./src/components/Users/UserSearch.jsx
@@ -106,39 +105,39 @@ export default ()=><div>user list</div>;
 import React, { PropTypes } from 'react';
 export default ()=><div>user modal</div>;
 ```
+If your local environment is ok, you can access [http://127.0.0.1:8989/#/users](http://127.0.0.1:8989/#/users) from your browser:
 
-现在如果你的本地环境是成功的，访问 [http://127.0.0.1:8989/#/users](http://127.0.0.1:8989/#/users) 浏览器中看到：
 
 ![image](https://zos.alipayobjects.com/rmsportal/QuGskhtqUjOnxZN.png)
 
-需要注意的是，定义我们的组件一般有三种方式：
+Note that we have 3 styles to define a component
 
 ```
-// 1. 传统写法
+// 1. traditional style
 const App = React.createClass({});
 
-// 2. es6 的写法
+// 2. es6 style
 class App extends React.Component({});
 
-// 3. stateless 的写法（我们推荐的写法）
+// 3. stateless style（recommended by us）
 const App = (props) => ({});
 ```
 
-其中第1种是我们不推荐的写法，第2种是在你的组件涉及 react 的生命周期方法的时候采用这种写法，而第3种则是我们一般推荐的写法。详细内容可以参看[Stateless Functions](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions)。
+The first style is not recommended, the second style is adopted when your component uses the lifecycle methods of react, the third style is recommended style, for more detail, please visit:[Stateless Functions](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions)。
 
-在确定了最简陋的结构以后，接下来需要做的事情，就是完善 Users Container 中的组件，在这里我们优先实现 `UserList` 组件。
+We will improve the components of Users Container next, here we will start from `UserList`
 
-### Userlist 组件
-暂时放下`<UserSearch />`和`<UserModal />`，先来看看`<UserList />`的实现，这是一个用户的展示列表，我们期望只需要把数据传入进去，修改 `./src/components/Users/UserList.jsx`：
+### Userlist component
+We ignore firstly the `<UserSearch />`and`<UserModal />`，and implement `<UserList />`，this is a user info display, we only need to import our user data to this component. So we modify `./src/components/Users/UserList.jsx`：
 
 ```jsx
 // ./src/components/Users/UserList.jsx
 import React, { Component, PropTypes } from 'react';
 
-// 采用antd的UI组件
+// import ant design
 import { Table, message, Popconfirm } from 'antd';
 
-// 采用 stateless 的写法
+// stateless style
 const UserList = ({
     total,
     current,
@@ -146,33 +145,33 @@ const UserList = ({
     dataSource,
 }) => {
   const columns = [{
-    title: '姓名',
+    title: 'name',
     dataIndex: 'name',
     key: 'name',
     render: (text) => <a href="#">{text}</a>,
   }, {
-    title: '年龄',
+    title: 'age',
     dataIndex: 'age',
     key: 'age',
   }, {
-    title: '住址',
+    title: 'address',
     dataIndex: 'address',
     key: 'address',
   }, {
-    title: '操作',
+    title: 'operation',
     key: 'operation',
     render: (text, record) => (
       <p>
-        <a onClick={()=>{}}>编辑</a>
+        <a onClick={()=>{}}>edit</a>
         &nbsp;
-        <Popconfirm title="确定要删除吗？" onConfirm={()=>{}}>
-          <a>删除</a>
+        <Popconfirm title="Are you sure to delete？" onConfirm={()=>{}}>
+          <a>Delete</a>
         </Popconfirm>
       </p>
     ),
   }];
 
-	// 定义分页对象
+	// design pagination object
   const pagination = {
     total,
     current,
@@ -196,19 +195,18 @@ const UserList = ({
 export default UserList;
 ```
 
-为了方便起见，我们这里使用一个优秀的UI组件库 [antd](http://ant.design)。 `antd` 提供了 table 组件，可以让我们方便的展示相关数据，具体使用方式可以参看其文档。
-
-需要注意的是，由于我们采用了 antd，所以我们需要在我们的代码中添加样式，可以在 `./src/index.jsx` 中添加一行：
+For the sake of convenience, we recommend a good UI framework [antd](http://ant.design). `antd` offres a table component, it allows us to show the data conveniently, please refer the documentation of Ant Design.
+Note that, as we are using antd, we need to add `./src/index.jsx` to our code.
 
 ```jsx
 import 'antd/dist/antd.css';
 ```
 
-这样我们使用的的 antd 组件就可以展示出样子了：
+This is the result of using ant design:
 
 ![image](https://zos.alipayobjects.com/rmsportal/YFYDtvgAClhMQRu.png)
 
-其中我们发现，在我们设计 `UserList` 的时候，需要将分页信息 `total、current` 以及加载状态信息 `loading` 也传入进来，所以现在使用 `UserList` 就需要像这样：
+We can find that, when we design `UserList` we need the pagination info `total, current` and `loading` to be transfered into our component, so now our `UserList` will be like:
 
 ```jsx
 <UserList
@@ -219,21 +217,21 @@ import 'antd/dist/antd.css';
 />
 ```
 
-接下来，我们回到 `Users Router Container` 模拟一些静态数据，传入 UserList ，让其展现数据。
+Back to `Users Router Container` , we mock some static data, pass in the UserList to show the user list info
 
-### 给 UserList 添加静态数据
+### add static data to UserList
 ```jsx
 // ./src/routes/Users.jsx
 import React, { Component, PropTypes } from 'react';
 
-// Users 的 Presentational Component
-// 暂时都没实现
+// Presentational Component of Users
+// Not implemented yet
 import UserList from '../components/Users/UserList';
 import UserSearch from '../components/Users/UserSearch';
 import UserModal from '../components/Users/UserModal';
 
-// 引入对应的样式
-// 可以暂时新建一个空的
+// load the styles
+// we can create an empty one firstly
 import styles from './Users.less';
 
 function Users() {
@@ -263,16 +261,16 @@ function Users() {
   };
   const userModalProps={};
 
-  return (
-    <div className={styles.normal}>
-      {/* 用户筛选搜索框 */}
-      <UserSearch {...userSearchProps} />
-      {/* 用户信息展示列表 */}
-      <UserList {...userListProps} />
-      {/* 添加用户 & 修改用户弹出的浮层 */}
-      <UserModal {...userModalProps} />
-    </div>
-  );
+    return (
+      <div className={styles.normal}>
+    {/* user search */}
+        <UserSearch {...userSearchProps} />
+      {/* user info display */}
+        <UserList {...userListProps} />
+      {/* add user & modify user modal */}
+        <UserModal {...userModalProps} />
+      </div>
+    );
 }
 
 Users.propTypes = {
@@ -282,11 +280,11 @@ Users.propTypes = {
 export default Users;
 ```
 
-传入了静态数据以后，组件的表现如下：
+After we passed in the static data, the component looks like this:
 
 ![image|400](https://zos.alipayobjects.com/rmsportal/HIDhLSNEgyNnVQD.png)
 
-### 组件设计小结
-虽然我们上面实现的代码很简单，但是已经包含了组件设计的主要思路，可以看到 `UserList` 组件是一个很纯粹的 `Presentation Component`，所需要的数据以及状态是通过 `Users Router Component` 传递的，我们现在还是用的静态数据，接下来我们来看看如何在 model 创建 __reducer__ 来将我们的数据抽象出来。
+### Summary
+although our implementation is quite simply, it has already contains the direction of component design, we can see  `UserList` is a pure `Presentation Component`, the data we need and the state is passed via `Users Router Component`, we are using static data now, next we will show how to create a __reducer__ to abstract our data model.
 
-下一步，进入[添加Reducers](./06-添加Reducers.md)。
+下一步，进入[Add Reducers](./06-添加Reducers.md)。
